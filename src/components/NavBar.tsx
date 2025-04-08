@@ -1,15 +1,23 @@
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { authService } from "../services/authService";
+import { toast } from "react-toastify";
 
 const Navbar: React.FC = () => {
   const { logout } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    logout();
-    sessionStorage.clear();
-    localStorage.clear();
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      await authService.logout();       
+      sessionStorage.clear();
+      localStorage.clear();
+      toast.success("Logout successful!")
+      logout();                         
+      navigate('/login');                
+    } catch (err) {
+      console.error('Logout failed:', err);
+    }
   };
 
   const userEmail = localStorage.getItem("userEmail");
@@ -60,7 +68,7 @@ const Navbar: React.FC = () => {
               </span>
             )}
             <button className="btn px-3 py-1 btn-outline-danger" onClick={handleLogout}>
-              Logout
+            <i className="bi bi-box-arrow-right me-1"></i> Logout
             </button>
           </div>
         </div>
