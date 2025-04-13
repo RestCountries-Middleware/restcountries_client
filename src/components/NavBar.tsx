@@ -9,18 +9,19 @@ const Navbar: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await authService.logout();       
+      await authService.logout();
       sessionStorage.clear();
       localStorage.clear();
-      toast.success("Logout successful!")
-      logout();                         
-      navigate('/login');                
+      toast.success("Logout successful!");
+      logout();
+      navigate("/login");
     } catch (err) {
-      console.error('Logout failed:', err);
+      console.error("Logout failed:", err);
     }
   };
 
   const userEmail = localStorage.getItem("userEmail");
+  const userRole = localStorage.getItem("userRole");
   return (
     <>
       <nav className="navbar navbar-expand-lg navbar-dark px-5 py-3">
@@ -60,6 +61,13 @@ const Navbar: React.FC = () => {
                 API Example
               </NavLink>
             </li>
+            {userRole === "superadmin" ? (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/manageusers">
+                  Manage Users
+                </NavLink>
+              </li>
+            ) : null}
           </ul>
           <div className="d-flex align-items-center gap-3">
             {userEmail && (
@@ -67,8 +75,11 @@ const Navbar: React.FC = () => {
                 Logged in as: <strong>{userEmail}</strong>
               </span>
             )}
-            <button className="btn px-3 py-1 btn-outline-danger" onClick={handleLogout}>
-            <i className="bi bi-box-arrow-right me-1"></i> Logout
+            <button
+              className="btn px-3 py-1 btn-outline-danger"
+              onClick={handleLogout}
+            >
+              <i className="bi bi-box-arrow-right me-1"></i> Logout
             </button>
           </div>
         </div>

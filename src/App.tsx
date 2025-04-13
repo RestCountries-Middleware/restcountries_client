@@ -7,6 +7,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import ApiKeysPage from "./pages/ApiKeys";
 import ApiExamplePage from "./pages/ApiExample";
 import { ToastContainer } from "react-toastify";
+import ManageUsersPage from "./pages/ManageUsers";
 
 const App: React.FC = () => {
   return (
@@ -36,6 +37,14 @@ const App: React.FC = () => {
           element={
             <ProtectedRoute>
               <ApiExamplePage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/manageusers"
+          element={
+            <ProtectedRoute requiredRole="superadmin">
+              <ManageUsersPage />
             </ProtectedRoute>
           }
         />
