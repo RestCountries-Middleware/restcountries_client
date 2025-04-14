@@ -1,19 +1,13 @@
-FROM node:20 AS build
+FROM node:alpine AS development
+
+ENV NODE_ENV development
 
 WORKDIR /app
 
-COPY package.json ./
+COPY package.json /app
 
 RUN npm install
 
 COPY . .
-
-FROM gcr.io/distroless/nodejs20
-
-WORKDIR /app
-
-COPY --from=build /app /app 
-
-EXPOSE 3000
 
 CMD [ "npm", "run", "dev" ]
